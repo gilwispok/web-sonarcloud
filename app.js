@@ -1,10 +1,18 @@
 const express = require( 'express' );
 
+const messageService = require('./services/message.service');
+
 const app = express();
 
-app.use( '*', (re, res) => {
+app.use( '*', (req, res) => {
+    const nameInQuery = req.query.name;
+    let messageTo = 'world!';
+    if (nameInQuery) {
+        messageTo = nameInQuery;
+    }
+    const fullMessage = messageService.hello( messageTo )
     return res.status(200).json({
-        message: 'ok'
+        message: fullMessage
     });
 } );
 
